@@ -1,8 +1,24 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '../styles/Particles.css';
 
 const Particles = () => {
   const canvasRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Check if device is mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Listen for resize events
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -27,10 +43,16 @@ const Particles = () => {
 
     const createParticles = () => {
       particles = [];
-      const particleCount = Math.floor(window.innerWidth / 12); // More particles
+      // Reduce particle count on mobile for better performance
+      const particleCount = isMobile 
+        ? Math.floor(window.innerWidth / 30)  // Fewer particles on mobile
+        : Math.floor(window.innerWidth / 12); // More particles on desktop
       
       for (let i = 0; i < particleCount; i++) {
-        const size = Math.random() * 5 + 2;
+        const size = isMobile 
+          ? Math.random() * 3 + 1  // Smaller particles on mobile
+          : Math.random() * 5 + 2; // Larger particles on desktop
+        
         const colorIndex = Math.floor(Math.random() * colors.length);
         
         particles.push({
@@ -39,8 +61,8 @@ const Particles = () => {
           radius: size,
           originalRadius: size,
           color: colors[colorIndex],
-          speedX: Math.random() * 0.8 - 0.4,
-          speedY: Math.random() * 0.8 - 0.4,
+          speedX: Math.random() * 0.6 - 0.3, // Slightly slower on mobile
+          speedY: Math.random() * 0.6 - 0.3,
           directionChangeTimer: 0,
           directionChangeInterval: Math.random() * 300 + 100,
           pulseSpeed: Math.random() * 0.02 + 0.01,
@@ -60,15 +82,21 @@ const Particles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw connecting lines between nearby particles
-      ctx.lineWidth = 1;
+      // Reduce line calculation on mobile for better performance
+      const connectionDistance = isMobile ? 100 : 150;
+      
+      ctx.lineWidth = isMobile ? 0.5 : 1;
       for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
+        // On mobile, only connect every other particle for better performance
+        const skipFactor = isMobile ? 2 : 1;
+        
+        for (let j = i + skipFactor; j < particles.length; j += skipFactor) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 150) {
-            const opacity = 1 - (distance / 150);
+          if (distance < connectionDistance) {
+            const opacity = 1 - (distance / connectionDistance);
             // Use the color scheme for lines
             const lineGradient = ctx.createLinearGradient(
               particles[i].x, particles[i].y,
@@ -126,11 +154,13 @@ const Particles = () => {
         ctx.fillStyle = gradient;
         ctx.fill();
         
-        // Add glow effect
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = currentColor;
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        // Add glow effect - reduce on mobile
+        if (!isMobile) {
+          ctx.shadowBlur = 15;
+          ctx.shadowColor = currentColor;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
         
         // Random direction changes with smooth transitions
         particle.directionChangeTimer++;
@@ -171,7 +201,7 @@ const Particles = () => {
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]);
 
   return <canvas ref={canvasRef} className="particles-canvas" />;
 };

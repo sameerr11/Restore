@@ -1073,3 +1073,93 @@ button:hover::before, .button:hover::before {
   color: #4dffba;
   text-shadow: 0 0 5px rgba(77, 255, 186, 0.5);
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 1.5rem;
+    margin-bottom: 120px;
+  }
+  
+  .logo-container {
+    width: 85%;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    max-height: 30vh;
+  }
+  
+  .monitor-text {
+    font-size: 24px;
+    letter-spacing: 2px;
+    padding: 5px 10px;
+  }
+  
+  .heart-monitor {
+    height: 120px;
+  }
+  
+  .medical-data, .bpm-display {
+    font-size: 14px;
+    padding: 3px 8px;
+    bottom: 10px;
+  }
+  
+  .bpm-display {
+    right: 15px;
+    width: auto;
+  }
+  
+  .medical-data {
+    left: 15px;
+    width: 130px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  #root {
+    padding: 1rem;
+  }
+  
+  .container {
+    width: 95%;
+    padding: 1rem;
+  }
+  
+  .logo-container {
+    width: 90%;
+    margin-bottom: 15px;
+  }
+  
+  .monitor-text {
+    font-size: 18px;
+    letter-spacing: 1px;
+  }
+  
+  .heart-monitor {
+    height: 100px;
+    bottom: -100px;
+  }
+  
+  .medical-data, .bpm-display {
+    font-size: 12px;
+    padding: 2px 6px;
+  }
+  
+  .heart-monitor::before {
+    font-size: 10px;
+    top: 10px;
+    left: 15px;
+  }
+  
+  .monitor-letter {
+    margin: 0 1px;
+  }
+  
+  .cursor {
+    height: 2.5rem;
+  }
+}
