@@ -29,34 +29,151 @@
     0 0 30px rgba(0, 150, 136, 0.5);
   width: 100%;
   max-width: 800px;
-  animation: none;
+  animation: heartbeat 2s ease-in-out infinite;
   overflow: hidden;
   position: relative;
 }
 
+/* Medical heartbeat animation */
+@keyframes heartbeat {
+  0% { transform: scale(1); }
+  3% { transform: scale(1.02); }
+  6% { transform: scale(1); }
+  9% { transform: scale(1.02); }
+  12% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+/* Medical symbols floating in background */
 .container::before {
-  display: none;
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(0, 150, 136, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 80% 70%, rgba(0, 150, 136, 0.05) 0%, transparent 20%);
+  z-index: 0;
+}
+
+.container::after {
+  content: '⚕ + ⚕ + ⚕';
+  position: absolute;
+  color: rgba(0, 150, 136, 0.1);
+  font-size: 80px;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: -1;
+  letter-spacing: 30px;
+  opacity: 0.3;
+  animation: medicalSymbolPulse 4s infinite;
+}
+
+@keyframes medicalSymbolPulse {
+  0% { opacity: 0.1; }
+  50% { opacity: 0.3; }
+  100% { opacity: 0.1; }
 }
 
 .logo-container {
   margin-bottom: 2rem;
-  animation: none;
   position: relative;
   z-index: 1;
   width: 90%;
   display: flex;
   justify-content: center;
+  animation: stethoscope 10s infinite alternate;
+}
+
+@keyframes stethoscope {
+  0% { transform: translateY(0); }
+  25% { transform: translateY(-5px) rotate(1deg); }
+  50% { transform: translateY(0) rotate(0); }
+  75% { transform: translateY(5px) rotate(-1deg); }
+  100% { transform: translateY(0); }
 }
 
 .logo {
   height: auto;
   width: 100%;
   max-height: 50vh;
-  will-change: auto;
-  transition: none;
-  filter: none;
-  animation: none;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(0, 150, 136, 0.5));
   object-fit: contain;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+/* Animated heartbeat monitor line */
+.animated-title::before {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    #00bcd4 30%, 
+    #00bcd4 50%,
+    transparent 100%);
+  animation: ecgLine 3s infinite;
+}
+
+@keyframes ecgLine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Medical cross pulse */
+.text-content::before {
+  content: '+';
+  position: absolute;
+  font-size: 80px;
+  color: rgba(0, 150, 136, 0.1);
+  top: -80px;
+  right: 30px;
+  z-index: -1;
+  animation: medicalCrossPulse 3s infinite;
+}
+
+@keyframes medicalCrossPulse {
+  0% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.2); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 0.1; }
+}
+
+/* DNA helix animation for the message text */
+.message {
+  overflow: visible;
+  height: auto;
+  line-height: 2;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 1rem;
+  opacity: 1;
+  text-shadow: none;
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 1;
+  border-left: 3px solid rgba(0, 150, 136, 0.5);
+  padding-left: 15px;
+  background: linear-gradient(90deg, rgba(0, 150, 136, 0.1) 0%, transparent 100%);
+  padding: 10px 15px;
+  border-radius: 5px;
 }
 
 h1 {
@@ -84,24 +201,6 @@ h1::after {
   background: linear-gradient(90deg, #00695c, #009688, #4db6ac, #b2dfdb);
   transform: translateX(-50%);
   animation: underlineExpand 1.5s 0.8s forwards, rainbowShift 3s linear infinite;
-}
-
-.message {
-  overflow: visible;
-  height: auto;
-  line-height: 2;
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.95);
-  margin-bottom: 1rem;
-  animation: fadeIn 1.5s ease-in-out;
-  opacity: 0;
-  animation-fill-mode: forwards;
-  animation-delay: 0.5s;
-  text-shadow: none;
-  font-weight: 500;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  letter-spacing: 0.5px;
 }
 
 .cursor {
@@ -375,6 +474,8 @@ h1::after {
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: subpixel-antialiased;
   font-smooth: always;
+  position: relative;
+  overflow: visible;
 }
 
 .animated-title:hover {
@@ -403,7 +504,6 @@ h1::after {
   font-weight: 800;
   -webkit-text-stroke: 1px #00bcd4;
   filter: none;
-  animation: none;
   letter-spacing: 2px;
 }
 
@@ -595,4 +695,246 @@ h1::after {
       inset 0 0 0 1px rgba(0, 150, 136, 0.5),
       0 0 50px rgba(0, 150, 136, 0.8);
   }
+}
+
+/* Add heartbeat monitor pattern to animated title */
+.animated-title {
+  position: relative;
+  overflow: visible;
+}
+
+/* EKG Line behind the title */
+.animated-title::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  right: -30px;
+  height: 40px;
+  background-image: 
+    linear-gradient(90deg, transparent 0%, transparent 45%, 
+    #00bcd4 45%, #00bcd4 50%, 
+    #80cbc4 50%, #80cbc4 55%, 
+    transparent 55%, transparent 70%,
+    #00bcd4 70%, #00bcd4 72%, 
+    transparent 72%, transparent 85%,
+    #00bcd4 85%, #00bcd4 90%,
+    transparent 90%, transparent 100%);
+  background-size: 120px 100%;
+  background-repeat: repeat-x;
+  animation: ekgScan 3s linear infinite;
+  z-index: -1;
+  opacity: 0.15;
+}
+
+@keyframes ekgScan {
+  0% { background-position: 0px 0; }
+  100% { background-position: 120px 0; }
+}
+
+/* Medical cross icon that pulses */
+.text-content::after {
+  content: '💉';
+  position: absolute;
+  font-size: 24px;
+  bottom: -30px;
+  left: 30px;
+  animation: floatingSyringe 4s ease-in-out infinite;
+  opacity: 0.7;
+  transform-origin: center;
+}
+
+@keyframes floatingSyringe {
+  0% { transform: rotate(-30deg) translateY(0); }
+  50% { transform: rotate(-25deg) translateY(-5px); }
+  100% { transform: rotate(-30deg) translateY(0); }
+}
+
+/* Add stethoscope animation to container */
+#root::before {
+  content: '🩺';
+  position: absolute;
+  font-size: 40px;
+  top: 40px;
+  right: 40px;
+  animation: rotateStethoscope 10s ease-in-out infinite;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+@keyframes rotateStethoscope {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  75% { transform: rotate(-10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Add a pill capsule animation */
+#root::after {
+  content: '💊';
+  position: absolute;
+  font-size: 30px;
+  bottom: 50px;
+  left: 50px;
+  animation: floatingPill 6s ease-in-out infinite;
+  opacity: 0.7;
+  z-index: 0;
+}
+
+@keyframes floatingPill {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(180deg); }
+  100% { transform: translateY(0) rotate(360deg); }
+}
+
+/* Add healing animation */
+.cursor {
+  position: relative;
+}
+
+.cursor::before {
+  content: '❤️';
+  position: absolute;
+  font-size: 16px;
+  right: -20px;
+  top: -10px;
+  animation: pulsingHeart 1s ease-in-out infinite;
+  opacity: 0.9;
+}
+
+@keyframes pulsingHeart {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Add DNA helix background animation */
+body {
+  position: relative;
+  overflow-x: hidden;
+  background: #000;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(0, 150, 136, 0.05) 0%, transparent 15%),
+    radial-gradient(circle at 75% 75%, rgba(0, 150, 136, 0.05) 0%, transparent 15%),
+    radial-gradient(circle at 50% 50%, rgba(0, 150, 136, 0.03) 0%, transparent 25%);
+  z-index: -1;
+}
+
+/* Medical themed buttons */
+button, .button {
+  background: linear-gradient(to right, #009688, #00bcd4);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(0, 150, 136, 0.5);
+}
+
+button::before, .button::before {
+  content: '+';
+  position: absolute;
+  font-size: 20px;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+button:hover, .button:hover {
+  padding-left: 35px;
+}
+
+button:hover::before, .button:hover::before {
+  opacity: 1;
+}
+
+/* Add animated microscope view */
+.animated-title::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 150, 136, 0.1) 0%,
+    rgba(0, 150, 136, 0.05) 30%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: -1;
+  animation: microscopeView 4s infinite alternate;
+}
+
+@keyframes microscopeView {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(-50%) scale(1.5);
+    opacity: 0.1;
+  }
+}
+
+/* Animated medical ribbon */
+.logo-container::after {
+  content: '';
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 40px;
+  background: linear-gradient(to right, #009688, #00bcd4);
+  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
+  z-index: -1;
+  opacity: 0.5;
+  animation: ribbonWave 3s ease-in-out infinite;
+}
+
+@keyframes ribbonWave {
+  0%, 100% {
+    transform: translateX(-50%) skewX(0);
+  }
+  50% {
+    transform: translateX(-50%) skewX(10deg);
+  }
+}
+
+/* Animated medical loading spinner */
+.logo::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 30px;
+  height: 30px;
+  border: 3px solid transparent;
+  border-top: 3px solid #00bcd4;
+  border-right: 3px solid #009688;
+  border-radius: 50%;
+  animation: medicalSpinner 2s linear infinite;
+}
+
+@keyframes medicalSpinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
