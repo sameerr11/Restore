@@ -1,0 +1,270 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 600px;
+  animation: fadeIn 1.2s ease-in-out, floatIn 1.5s ease-out;
+  overflow: hidden;
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  animation: shimmer 8s linear infinite;
+  pointer-events: none;
+}
+
+.logo-container {
+  margin-bottom: 2rem;
+  animation: floatUp 1s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  height: 10em;
+  will-change: filter, transform;
+  transition: filter 300ms;
+  filter: drop-shadow(0 0 1.5em rgba(255, 255, 255, 0.4));
+  animation: pulse 3s infinite ease-in-out, rotate3d 15s infinite linear;
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin: 1rem 0;
+  color: white;
+  font-weight: 700;
+  animation: slideInRight 0.8s ease-out;
+  position: relative;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(to right, #ffffff, #c3cfe2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h1::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: -5px;
+  left: 50%;
+  background: linear-gradient(90deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  transform: translateX(-50%);
+  animation: underlineExpand 1.5s 0.8s forwards, rainbowShift 3s linear infinite;
+}
+
+.message {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  animation: fadeIn 1.5s ease-in-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+  animation-delay: 0.5s;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.cursor {
+  display: inline-block;
+  margin-left: 3px;
+  width: 3px;
+  background: linear-gradient(to bottom, #ee7752, #e73c7e);
+  animation: blink 1s infinite, colorShift 5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: rotate3d(0, 1, 0.5, 0deg);
+  }
+  25% {
+    transform: rotate3d(0.5, 0, 1, 3deg);
+  }
+  50% {
+    transform: rotate3d(1, 0.5, 0, 0deg);
+  }
+  75% {
+    transform: rotate3d(0.5, 1, 0, -3deg);
+  }
+  100% {
+    transform: rotate3d(0, 1, 0.5, 0deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-150%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(150%) rotate(45deg);
+  }
+}
+
+@keyframes rainbowShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    background: linear-gradient(to bottom, #ee7752, #e73c7e);
+  }
+  25% {
+    background: linear-gradient(to bottom, #e73c7e, #23a6d5);
+  }
+  50% {
+    background: linear-gradient(to bottom, #23a6d5, #23d5ab);
+  }
+  75% {
+    background: linear-gradient(to bottom, #23d5ab, #ee7752);
+  }
+  100% {
+    background: linear-gradient(to bottom, #ee7752, #e73c7e);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes floatIn {
+  from {
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes floatUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes underlineExpand {
+  from {
+    width: 0;
+  }
+  to {
+    width: 70%;
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Remove or comment out unused animations */
+/* .logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+} */
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
