@@ -1,0 +1,117 @@
+/* Hide the default cursor */
+body {
+  cursor: none;
+}
+
+a, button, .animated-title, .animated-letter {
+  cursor: none;
+}
+
+/* Custom cursor styles */
+.cursor-dot,
+.cursor-ring {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 9999;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #00bcd4;
+  box-shadow: 0 0 10px rgba(0, 188, 212, 0.8), 0 0 20px rgba(0, 188, 212, 0.4);
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(0, 150, 136, 0.5);
+  transition: width 0.3s, height 0.3s, border-color 0.3s, opacity 0.3s, transform 0.3s;
+  background-color: rgba(0, 150, 136, 0.05);
+}
+
+/* Cursor states */
+.cursor-dot.clicked {
+  width: 12px;
+  height: 12px;
+  background-color: #009688;
+  box-shadow: 0 0 15px rgba(0, 150, 136, 1), 0 0 30px rgba(0, 150, 136, 0.6);
+}
+
+.cursor-ring.clicked {
+  width: 30px;
+  height: 30px;
+  border-width: 3px;
+  border-color: rgba(0, 150, 136, 0.8);
+  background-color: rgba(0, 150, 136, 0.1);
+}
+
+.cursor-dot.hovering {
+  width: 10px;
+  height: 10px;
+  background-color: #4db6ac;
+  animation: pulse 1.5s infinite alternate;
+}
+
+.cursor-ring.hovering {
+  width: 60px;
+  height: 60px;
+  border-color: rgba(0, 150, 136, 0.7);
+  background-color: rgba(0, 150, 136, 0.1);
+  animation: rotate 2s linear infinite;
+}
+
+.cursor-dot.hidden,
+.cursor-ring.hidden {
+  opacity: 0;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Media query for touch devices */
+@media (max-width: 768px) {
+  .cursor-dot, .cursor-ring {
+    display: none;
+  }
+  
+  body, a, button, .animated-title, .animated-letter {
+    cursor: auto;
+  }
+}
+
+.cursor-trail {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  z-index: 9998;
+  transition: opacity 0.2s ease;
+} 

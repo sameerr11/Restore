@@ -10,13 +10,13 @@ const Particles = () => {
     let particles = [];
     let animationFrameId;
     
-    // Create color palette for particles
+    // Create color palette for particles matching the dark color scheme
     const colors = [
-      'rgba(238, 119, 82, 0.8)',   // #ee7752
-      'rgba(231, 60, 126, 0.8)',   // #e73c7e
-      'rgba(35, 166, 213, 0.8)',   // #23a6d5
-      'rgba(35, 213, 171, 0.8)',   // #23d5ab
-      'rgba(255, 255, 255, 0.8)',  // white
+      'rgba(0, 105, 92, 0.9)',     // #00695c - Dark teal
+      'rgba(0, 150, 136, 0.9)',    // #009688 - Teal
+      'rgba(77, 182, 172, 0.8)',   // #4db6ac - Light teal
+      'rgba(178, 223, 219, 0.7)',  // #b2dfdb - Pale teal
+      'rgba(0, 188, 212, 0.9)',    // #00bcd4 - Cyan
     ];
 
     const resizeCanvas = () => {
@@ -27,10 +27,10 @@ const Particles = () => {
 
     const createParticles = () => {
       particles = [];
-      const particleCount = Math.floor(window.innerWidth / 15); // More particles
+      const particleCount = Math.floor(window.innerWidth / 12); // More particles
       
       for (let i = 0; i < particleCount; i++) {
-        const size = Math.random() * 4 + 1;
+        const size = Math.random() * 5 + 2;
         const colorIndex = Math.floor(Math.random() * colors.length);
         
         particles.push({
@@ -39,16 +39,19 @@ const Particles = () => {
           radius: size,
           originalRadius: size,
           color: colors[colorIndex],
-          speedX: Math.random() * 1 - 0.5,
-          speedY: Math.random() * 1 - 0.5,
+          speedX: Math.random() * 0.8 - 0.4,
+          speedY: Math.random() * 0.8 - 0.4,
           directionChangeTimer: 0,
-          directionChangeInterval: Math.random() * 200 + 50,
+          directionChangeInterval: Math.random() * 300 + 100,
           pulseSpeed: Math.random() * 0.02 + 0.01,
           pulseDirection: Math.random() > 0.5 ? 1 : -1,
           colorChangeSpeed: Math.random() * 0.005 + 0.001,
           targetColorIndex: (colorIndex + 1) % colors.length,
           currentColorIndex: colorIndex,
           colorTransition: 0,
+          opacity: Math.random() * 0.5 + 0.5,
+          opacityChange: Math.random() * 0.01,
+          opacityDirection: Math.random() > 0.5 ? 1 : -1,
         });
       }
     };
@@ -57,16 +60,25 @@ const Particles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Draw connecting lines between nearby particles
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = 1;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
           
-          if (distance < 100) {
-            const opacity = 1 - (distance / 100);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.2})`;
+          if (distance < 150) {
+            const opacity = 1 - (distance / 150);
+            // Use the color scheme for lines
+            const lineGradient = ctx.createLinearGradient(
+              particles[i].x, particles[i].y,
+              particles[j].x, particles[j].y
+            );
+            
+            lineGradient.addColorStop(0, colors[particles[i].currentColorIndex].replace(/[\d\.]+\)$/, `${opacity * 0.5})`));
+            lineGradient.addColorStop(1, colors[particles[j].currentColorIndex].replace(/[\d\.]+\)$/, `${opacity * 0.5})`));
+            
+            ctx.strokeStyle = lineGradient;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -91,14 +103,20 @@ const Particles = () => {
           particle.colorTransition = 0;
         }
         
+        // Opacity oscillation for twinkling effect
+        particle.opacity += particle.opacityDirection * particle.opacityChange;
+        if (particle.opacity > 0.9 || particle.opacity < 0.4) {
+          particle.opacityDirection *= -1;
+        }
+        
         // Draw particle with gradient
         const gradient = ctx.createRadialGradient(
           particle.x, particle.y, 0,
           particle.x, particle.y, particle.radius
         );
         
-        const currentColor = colors[particle.currentColorIndex];
-        const targetColor = colors[particle.targetColorIndex];
+        const currentColor = colors[particle.currentColorIndex].replace(/[\d\.]+\)$/, `${particle.opacity})`);
+        const targetColor = colors[particle.targetColorIndex].replace(/[\d\.]+\)$/, `${particle.opacity * 0.8})`);
         
         gradient.addColorStop(0, currentColor);
         gradient.addColorStop(1, targetColor);
@@ -108,13 +126,25 @@ const Particles = () => {
         ctx.fillStyle = gradient;
         ctx.fill();
         
-        // Random direction changes
+        // Add glow effect
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = currentColor;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        
+        // Random direction changes with smooth transitions
         particle.directionChangeTimer++;
         if (particle.directionChangeTimer >= particle.directionChangeInterval) {
-          particle.speedX = Math.random() * 1 - 0.5;
-          particle.speedY = Math.random() * 1 - 0.5;
+          // Smooth transition to new direction
+          const targetSpeedX = Math.random() * 0.8 - 0.4;
+          const targetSpeedY = Math.random() * 0.8 - 0.4;
+          
+          // Gradually change speed
+          particle.speedX = particle.speedX * 0.8 + targetSpeedX * 0.2;
+          particle.speedY = particle.speedY * 0.8 + targetSpeedY * 0.2;
+          
           particle.directionChangeTimer = 0;
-          particle.directionChangeInterval = Math.random() * 200 + 50;
+          particle.directionChangeInterval = Math.random() * 300 + 100;
         }
         
         // Move particles
@@ -122,10 +152,10 @@ const Particles = () => {
         particle.y += particle.speedY;
         
         // Wrap around screen edges
-        if (particle.x < 0) particle.x = canvas.width;
-        if (particle.x > canvas.width) particle.x = 0;
-        if (particle.y < 0) particle.y = canvas.height;
-        if (particle.y > canvas.height) particle.y = 0;
+        if (particle.x < -50) particle.x = canvas.width + 50;
+        if (particle.x > canvas.width + 50) particle.x = -50;
+        if (particle.y < -50) particle.y = canvas.height + 50;
+        if (particle.y > canvas.height + 50) particle.y = -50;
       });
       
       animationFrameId = requestAnimationFrame(animate);
