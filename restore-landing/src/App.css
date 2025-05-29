@@ -34,6 +34,7 @@
   position: relative;
   margin-bottom: 140px;
   min-height: 400px;
+  box-sizing: border-box;
 }
 
 /* Medical heartbeat animation */
@@ -951,15 +952,21 @@ h1::after {
     padding: 1rem;
     margin-bottom: 80px;
     max-width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .logo-container {
     width: 90%;
     margin-bottom: 20px;
     margin-top: 60px;
-    position: relative;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
+    left: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .secondary-logo {
@@ -1010,4 +1017,21 @@ body {
   position: relative;
   overflow-x: hidden;
   background: #000;
+}
+
+.mobile-logo {
+  width: 80% !important;
+  margin: 80px auto 30px !important;
+  position: relative !important;
+  left: 0 !important;
+  right: 0 !important;
+  transform: none !important;
+  display: block !important;
+  text-align: center !important;
+}
+
+.mobile-logo img {
+  margin: 0 auto !important;
+  display: block !important;
+  max-width: 100% !important;
 }

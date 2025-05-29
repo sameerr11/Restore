@@ -75,6 +75,7 @@ function HeartRateMonitor({ text, fullText }) {
 function App() {
   const [text, setText] = useState('');
   const fullText = 'Restoring Soon!';
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
   
   useEffect(() => {
     let currentIndex = 0;
@@ -87,8 +88,25 @@ function App() {
       }
     }, 150);
     
-    return () => clearInterval(typeInterval);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 480);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      clearInterval(typeInterval);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
+
+  // Define inline styles for mobile
+  const mobileLogoStyle = isMobile ? {
+    display: 'block',
+    width: '80%',
+    margin: '80px auto 30px',
+    textAlign: 'center'
+  } : {};
 
   return (
     <>
@@ -98,8 +116,16 @@ function App() {
         <div className="secondary-logo">
           <img src="/logo2.png" alt="Secondary Logo" />
         </div>
-        <div className="logo-container">
-          <img src="/logo1.png" className="logo" alt="Company Logo" />
+        <div 
+          className={`logo-container ${isMobile ? 'mobile-logo' : ''}`}
+          style={mobileLogoStyle}
+        >
+          <img 
+            src="/logo1.png" 
+            className="logo" 
+            alt="Company Logo" 
+            style={isMobile ? { margin: '0 auto', display: 'block' } : {}}
+          />
         </div>
         <HeartRateMonitor text={text} fullText={fullText} />
       </div>
