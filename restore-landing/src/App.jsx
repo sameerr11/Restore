@@ -95,9 +95,12 @@ function App() {
       <CustomCursor />
       <Particles />
       <div className="container">
+        <div className="secondary-logo">
+          <img src="/logo2.png" alt="Secondary Logo" />
+        </div>
         <div className="logo-container">
           <img src="/logo1.png" className="logo" alt="Company Logo" />
-      </div>
+        </div>
         <HeartRateMonitor text={text} fullText={fullText} />
       </div>
     </>
