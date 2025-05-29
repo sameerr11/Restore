@@ -874,13 +874,14 @@ h1::after {
   bottom: 15px;
   left: 30px;
   width: 150px;
-  height: 40px;
+  height: auto;
   border: 1px solid #00ffff;
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.6);
   z-index: 6;
   box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), inset 0 0 5px rgba(0, 255, 255, 0.1);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: 'Courier New', monospace;
@@ -1009,6 +1010,10 @@ h1::after {
   
   .cursor {
     height: 2.5rem;
+  }
+  
+  .medical-data {
+    padding: 4px 10px;
   }
 }
 

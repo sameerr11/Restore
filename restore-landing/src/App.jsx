@@ -67,7 +67,10 @@ function HeartRateMonitor({ text, fullText }) {
         }}>❤</span>
         {bpm}
       </div>
-      <div className="medical-data">BP: {bp} | O₂: {o2}%</div>
+      <div className="medical-data">
+        BP: {bp} <br />
+        O₂: {o2}%
+      </div>
     </div>
   );
 }
