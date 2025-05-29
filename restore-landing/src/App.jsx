@@ -89,15 +89,15 @@ function App() {
     
     return () => clearInterval(typeInterval);
   }, []);
-  
+
   return (
     <>
       <CustomCursor />
       <Particles />
       <div className="container">
         <div className="logo-container">
-          <img src="/logo.png" className="logo" alt="Company Logo" />
-        </div>
+          <img src="/logo1.png" className="logo" alt="Company Logo" />
+      </div>
         <HeartRateMonitor text={text} fullText={fullText} />
       </div>
     </>

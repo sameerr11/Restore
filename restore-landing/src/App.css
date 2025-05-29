@@ -94,7 +94,12 @@
   z-index: 1;
   display: flex;
   justify-content: center;
-  animation: stethoscope 10s infinite alternate;
+  animation: none !important;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 0 20px rgba(0, 150, 136, 0.3);
+  border: 1px solid rgba(0, 150, 136, 0.3);
 }
 
 @keyframes stethoscope {
@@ -112,6 +117,9 @@
   transition: transform 0.3s ease;
   filter: drop-shadow(0 0 8px rgba(0, 150, 136, 0.5));
   object-fit: contain;
+  background-color: transparent !important;
+  mix-blend-mode: normal;
+  border-radius: 8px;
 }
 
 .logo:hover {
@@ -754,224 +762,24 @@ h1::after {
   100% { transform: rotate(-30deg) translateY(0); }
 }
 
-/* Add stethoscope animation to container */
-#root::before {
-  content: '🩺';
-  position: absolute;
-  font-size: 40px;
-  top: 40px;
-  right: 40px;
-  animation: rotateStethoscope 10s ease-in-out infinite;
-  opacity: 0.7;
-  z-index: 0;
+/* Remove stethoscope and pill emoji from #root */
+#root::before, #root::after {
+  content: none !important;
+  display: none !important;
 }
 
-@keyframes rotateStethoscope {
-  0% { transform: rotate(0deg); }
-  25% { transform: rotate(10deg); }
-  75% { transform: rotate(-10deg); }
-  100% { transform: rotate(0deg); }
+/* Remove PATIENT: RESTORE label from heart monitor */
+.heart-monitor::before {
+  content: none !important;
+  display: none !important;
 }
 
-/* Add a pill capsule animation */
-#root::after {
-  content: '💊';
-  position: absolute;
-  font-size: 30px;
-  bottom: 50px;
-  left: 50px;
-  animation: floatingPill 6s ease-in-out infinite;
-  opacity: 0.7;
-  z-index: 0;
-}
-
-@keyframes floatingPill {
-  0% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(180deg); }
-  100% { transform: translateY(0) rotate(360deg); }
-}
-
-/* Add healing animation */
-.cursor {
-  position: relative;
-}
-
-.cursor::before {
-  content: '❤️';
-  position: absolute;
-  font-size: 16px;
-  right: -20px;
-  top: -10px;
-  animation: pulsingHeart 1s ease-in-out infinite;
-  opacity: 0.9;
-}
-
-@keyframes pulsingHeart {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
-
-/* Add DNA helix background animation */
-body {
-  position: relative;
-  overflow-x: hidden;
-  background: #000;
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: 
-    radial-gradient(circle at 25% 25%, rgba(0, 150, 136, 0.05) 0%, transparent 15%),
-    radial-gradient(circle at 75% 75%, rgba(0, 150, 136, 0.05) 0%, transparent 15%),
-    radial-gradient(circle at 50% 50%, rgba(0, 150, 136, 0.03) 0%, transparent 25%);
-  z-index: -1;
-}
-
-/* Medical themed buttons */
-button, .button {
-  background: linear-gradient(to right, #009688, #00bcd4);
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 150, 136, 0.5);
-}
-
-button::before, .button::before {
-  content: '+';
-  position: absolute;
-  font-size: 20px;
-  top: 50%;
-  left: 10px;
-  transform: translateY(-50%);
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-button:hover, .button:hover {
-  padding-left: 35px;
-}
-
-button:hover::before, .button:hover::before {
-  opacity: 1;
-}
-
-/* Add animated microscope view */
-.animated-title::before {
-  content: '';
-  position: absolute;
-  top: -50px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(
-    circle at center,
-    rgba(0, 150, 136, 0.1) 0%,
-    rgba(0, 150, 136, 0.05) 30%,
-    transparent 70%
-  );
-  border-radius: 50%;
-  z-index: -1;
-  animation: microscopeView 4s infinite alternate;
-}
-
-@keyframes microscopeView {
-  0% {
-    transform: translateX(-50%) scale(1);
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateX(-50%) scale(1.5);
-    opacity: 0.1;
-  }
-}
-
-/* Animated medical ribbon */
-.logo-container::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 40px;
-  background: linear-gradient(to right, #009688, #00bcd4);
-  clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%);
-  z-index: -1;
-  opacity: 0.5;
-  animation: ribbonWave 3s ease-in-out infinite;
-}
-
-@keyframes ribbonWave {
-  0%, 100% {
-    transform: translateX(-50%) skewX(0);
-  }
-  50% {
-    transform: translateX(-50%) skewX(10deg);
-  }
-}
-
-/* Animated medical loading spinner */
-.logo::after {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  width: 30px;
-  height: 30px;
-  border: 3px solid transparent;
-  border-top: 3px solid #00bcd4;
-  border-right: 3px solid #009688;
-  border-radius: 50%;
-  animation: medicalSpinner 2s linear infinite;
-}
-
-@keyframes medicalSpinner {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
+/* Move monitor-text upwards in the heart monitor */
 .monitor-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Courier New', monospace;
-  font-size: 32px;
-  font-weight: bold;
-  color: #00ffff;
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
-  background-color: rgba(0, 0, 0, 0.4);
-  padding: 5px 15px;
-  border-radius: 5px;
-  z-index: 10;
-  letter-spacing: 3px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  top: 35%;
+  font-size: 40px;
   white-space: nowrap;
-}
-
-.monitor-letter {
-  display: inline-block;
-  color: #00ffff;
-  margin: 0 2px;
-  font-family: 'Courier New', monospace;
-  font-weight: bold;
-  position: relative;
-  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* Heart Rate Monitor Animation - Enhanced */
@@ -1019,21 +827,6 @@ button:hover::before, .button:hover::before {
   100% {
     top: 100%;
   }
-}
-
-/* Corner decorations */
-.heart-monitor::before {
-  content: 'PATIENT: RESTORE';
-  position: absolute;
-  top: 15px;
-  left: 30px;
-  font-family: 'Courier New', monospace;
-  font-size: 14px;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.8);
-  letter-spacing: 2px;
-  text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
-  z-index: 10;
 }
 
 /* Adjust position of the medical data and bpm display */
@@ -1092,9 +885,15 @@ button:hover::before, .button:hover::before {
   }
   
   .monitor-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 24px;
     letter-spacing: 2px;
     padding: 5px 10px;
+    top: 5% !important;
+    white-space: nowrap;
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
   
   .heart-monitor {
@@ -1135,8 +934,14 @@ button:hover::before, .button:hover::before {
   }
   
   .monitor-text {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     font-size: 18px;
     letter-spacing: 1px;
+    top: 5% !important;
+    white-space: nowrap;
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   }
   
   .heart-monitor {
@@ -1162,4 +967,11 @@ button:hover::before, .button:hover::before {
   .cursor {
     height: 2.5rem;
   }
+}
+
+/* Remove body background override to restore animated gradient from index.css */
+body {
+  position: relative;
+  overflow-x: hidden;
+  background: #000;
 }
