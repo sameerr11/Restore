@@ -96,8 +96,9 @@ function App() {
       <Particles />
       <div className="container">
         <div className="logo-container">
-          <img src="/logo1.png" className="logo" alt="Company Logo" />
-      </div>
+          <img src="/logo1.png" className="logo" alt="Company Logo 1" />
+          <img src="/logo2.png" className="logo" alt="Company Logo 2" />
+        </div>
         <HeartRateMonitor text={text} fullText={fullText} />
       </div>
     </>
